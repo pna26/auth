@@ -1,0 +1,23 @@
+# CI/CD do auth: usa o pipeline reutilizável do repositório platform
+# (biblioteca: build + testes + varredura Trivy; sem imagem nem deploy).
+# Detalhes: https://pna26.github.io/platform/devops/ci-cd/
+name: ci
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  security-events: write
+
+jobs:
+  pipeline:
+    uses: pna26/platform/.github/workflows/service.yaml@main
+    with:
+      service: auth
+      maven-deps: account
+    secrets: inherit
